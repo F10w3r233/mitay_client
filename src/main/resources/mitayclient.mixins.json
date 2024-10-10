@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "com.flower.mitayclient.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "InGameHudMixin",
+    "MinecraftClientMixin",
+    "MyTitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "InGameHudMixin",
+    "MainMixin",
+    "MessageHandlerMixin",
+    "MyConnectScreenMixin",
+    "MyDisconnectedScreenMixin",
+    "MyGameMenuScreenMixin",
+    "MyInventoryScreenMixin",
+    "MyPlayerListHudMixin",
+    "MyScreenMixin"
+  ]
+}

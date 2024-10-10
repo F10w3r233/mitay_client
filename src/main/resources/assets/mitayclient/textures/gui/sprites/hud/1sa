@@ -1,0 +1,21 @@
+{
+	"providers": [
+		{
+			"type" : "ttf",
+			"file" : "bb4171.ttf",
+			"size" : 12,
+			"oversample" : 6
+			"skip" : "《【「『（"
+		},
+		{
+			"type" : "ttf",
+			"file" : "bb4171.ttf",
+			"size" : 12,
+			"oversample" : 6
+			"shift":[
+				-3.0,
+				0
+			]
+		}
+	]
+}
