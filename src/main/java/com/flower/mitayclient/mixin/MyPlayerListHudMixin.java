@@ -93,17 +93,17 @@ public class MyPlayerListHudMixin
                     {
                         if(player.getProfile().getName() != null)
                         {
-                            context.drawTextWithShadow(client.textRenderer, player.getProfile().getName(), 730, curY, 14474460);
+                            context.drawTextWithShadow(client.textRenderer, player.getProfile().getName(), 732, curY, 14474460);
                             if(player.getSkinTextures() != null)
-                                PlayerSkinDrawer.draw(context, player.getSkinTextures(), 710, curY-5, 16);
-                            context.drawTextWithShadow(client.textRenderer, String.valueOf(player.getLatency()), 800, curY, 14474460);
+                                PlayerSkinDrawer.draw(context, player.getSkinTextures(), 708, curY-5, 16);
+//                            context.drawTextWithShadow(client.textRenderer, String.valueOf(player.getLatency()), 800, curY, 14474460);
 
                         }
                     }else
                     {
                         if(player.getSkinTextures() != null)
-                            PlayerSkinDrawer.draw(context, player.getSkinTextures(), 710, curY-5, 16);
-                        context.drawTextWithShadow(client.textRenderer, player.getDisplayName(), 730, curY, 14474460);
+                            PlayerSkinDrawer.draw(context, player.getSkinTextures(), 708, curY-5, 16);
+                        context.drawTextWithShadow(client.textRenderer, player.getDisplayName(), 732, curY, 14474460);
                     }
                 }
             }

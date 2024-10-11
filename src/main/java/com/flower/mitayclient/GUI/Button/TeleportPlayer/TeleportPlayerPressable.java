@@ -20,10 +20,6 @@ import net.minecraft.util.math.MathHelper;
 
 import static net.fabricmc.fabric.api.client.screen.v1.Screens.getTextRenderer;
 
-/**
- * A pressable widget has a press action. It is pressed when it is clicked. It is
- * also pressed when enter or space keys are pressed when it is selected.
- */
 @Environment(EnvType.CLIENT)
 public abstract class TeleportPlayerPressable extends ClickableWidget {
 
@@ -35,7 +31,6 @@ public abstract class TeleportPlayerPressable extends ClickableWidget {
 
 
 
-    String iconName;
     PlayerListEntry player;
 
     public TeleportPlayerPressable(int i, int j, int k, int l, Text text, PlayerListEntry player)
@@ -61,26 +56,29 @@ public abstract class TeleportPlayerPressable extends ClickableWidget {
         if(!this.isHovered())
         {
             context.drawTexture(BUTTON, this.getX(), this.getY(), 0, 0,160, 34,160,34);
-            if(player != null)
-            {
-                PlayerSkinDrawer.draw(context, player.getSkinTextures(), getX()+5+5, getY()+5+3,16);
-                if(player.getDisplayName() != null)
-                    context.drawTextWithShadow(client.textRenderer, player.getDisplayName(), getX()+5+16+5+5+2, getY()+5+7, 14474460);
-            }
+            drawProfile(context,client);
+
         }else
         {
             context.drawTexture(BUTTON_FOCUS, this.getX(), this.getY(), 0, 0,160, 34,160,34);
-            if(player != null)
-            {
-                PlayerSkinDrawer.draw(context, player.getSkinTextures(), getX()+5+5, getY()+5+3,16);
-                if(player.getDisplayName() != null)
-                    context.drawTextWithShadow(client.textRenderer, player.getDisplayName(), getX()+5+16+5+5+2, getY()+5+7, 14474460);
-            }
+            drawProfile(context,client);
         }
 
         context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int i = this.active ? 16843008 : 16777215;
         this.drawMessage(context, client.textRenderer, i | MathHelper.ceil(this.alpha * 255.0F) << 24);
+    }
+
+    private void drawProfile(DrawContext context, MinecraftClient client)
+    {
+        if(player != null)
+        {
+            PlayerSkinDrawer.draw(context, player.getSkinTextures(), getX()+5+5, getY()+5+3,16);
+            if(player.getDisplayName() != null)
+            {
+                context.drawTextWithShadow(client.textRenderer, player.getDisplayName(), getX()+5+16+5+5+2, getY()+5+7, 14474460);
+            }else context.drawTextWithShadow(client.textRenderer, player.getProfile().getName(), getX()+5+16+5+5+2, getY()+5+7, 14474460);
+        }
     }
 
     public void drawMessage(DrawContext context, TextRenderer textRenderer, int color) {
