@@ -1,8 +1,8 @@
 package com.flower.mitayclient.GUI.Screen;
 
+import com.flower.mitayclient.GUI.Button.PlaceListButton.Large.PlaceListButton;
 import com.flower.mitayclient.util.ModIdentifier;
-import com.flower.mitayclient.GUI.Button.MyButtonWidget;
-import com.flower.mitayclient.GUI.Button.SmallButtonWidget;
+import com.flower.mitayclient.GUI.Button.PlaceListButton.Small.SmallButtonWidget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -100,37 +100,37 @@ public class PlaceListScreen extends Screen implements ParentElement {
 
 
     //主世界
-    MyButtonWidget exchange_button = MyButtonWidget.builder(Text.literal("村民交易所"), button ->
+    PlaceListButton exchange_button = PlaceListButton.builder(Text.literal("村民交易所"), button ->
     {
         sendChatCommand("tpplus overworld 116 72 119");
         client.setScreen(null);
 
     }).icon("exchange").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10, 210, 30).build();
-    MyButtonWidget home_button = MyButtonWidget.builder(Text.literal("大本营"), button ->
+    PlaceListButton home_button = PlaceListButton.builder(Text.literal("大本营"), button ->
     {
         sendChatCommand("tpplus overworld 13 94 8");
         client.setScreen(null);
 
     }).icon("home").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10+30, 210, 30).build();
-    MyButtonWidget mob_tower_main_button = MyButtonWidget.builder(Text.literal("沼泽刷怪塔"), button ->
+    PlaceListButton mob_tower_main_button = PlaceListButton.builder(Text.literal("沼泽刷怪塔"), button ->
     {
         flag1 = true;
         bl1 = false;
         init();
     }).icon("mob_main").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10+30+30, 210, 30).build();
-    MyButtonWidget iron_farm_button = MyButtonWidget.builder(Text.literal("刷铁机"), button ->
+    PlaceListButton iron_farm_button = PlaceListButton.builder(Text.literal("刷铁机"), button ->
     {
         sendChatCommand("tpplus overworld 184 69 95");
         client.setScreen(null);
     }).icon("iron").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10+30+30+30, 210, 30).build();
 
 
-    MyButtonWidget mob_tower_resouce_button = MyButtonWidget.builder(Text.literal("资源点"), button ->
+    PlaceListButton mob_tower_resouce_button = PlaceListButton.builder(Text.literal("资源点"), button ->
     {
         sendChatCommand("tpplus overworld -514 65 -445");
         client.setScreen(null);
     }).icon("mob_resource").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10, 210, 30).build();
-    MyButtonWidget mob_tower_afk_button = MyButtonWidget.builder(Text.literal("挂机点"), button ->
+    PlaceListButton mob_tower_afk_button = PlaceListButton.builder(Text.literal("挂机点"), button ->
     {
         sendChatCommand("tpplus overworld -545.5 184 -429.5");
         client.setScreen(null);
@@ -141,19 +141,19 @@ public class PlaceListScreen extends Screen implements ParentElement {
 
     //末地
 
-    MyButtonWidget end_portal_button = MyButtonWidget.builder(Text.literal("主世界末地传送门"), button ->
+    PlaceListButton end_portal_button = PlaceListButton.builder(Text.literal("主世界末地传送门"), button ->
     {
         sendChatCommand("tpplus overworld 724.4 -37 -1716.5");
         client.setScreen(null);
 
     }).icon("end_portal").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10, 210, 30).build();
-    MyButtonWidget end_mainland_button = MyButtonWidget.builder(Text.literal("末地主岛"), button ->
+    PlaceListButton end_mainland_button = PlaceListButton.builder(Text.literal("末地主岛"), button ->
     {
         sendChatCommand("tpplus end 5 64 0");
         client.setScreen(null);
 
     }).icon("end_mainland").dimensions((this.client.getWindow().getScaledWidth()-382)/2+7+115+5+2,(this.client.getWindow().getScaledHeight()-292)/2+10+30, 210, 30).build();
-    MyButtonWidget ender_man_farm_button = MyButtonWidget.builder(Text.literal("小黑塔"), button ->
+    PlaceListButton ender_man_farm_button = PlaceListButton.builder(Text.literal("小黑塔"), button ->
     {
         sendChatCommand("tpplus end -192.9 1.2 20.5");
         client.setScreen(null);
@@ -163,7 +163,7 @@ public class PlaceListScreen extends Screen implements ParentElement {
 
 
     //创造世界
-    MyButtonWidget creative_world_button = MyButtonWidget.builder(Text.literal("创造世界"), button ->
+    PlaceListButton creative_world_button = PlaceListButton.builder(Text.literal("创造世界"), button ->
     {
         sendChatCommand("goto");
         client.setScreen(null);

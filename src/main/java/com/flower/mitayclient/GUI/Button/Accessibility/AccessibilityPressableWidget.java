@@ -24,6 +24,7 @@ public abstract class AccessibilityPressableWidget extends ClickableWidget {
     int size = 15;
     private static final Identifier LANGUAGE = new ModIdentifier("textures/gui/sprites/hud/accessibility/language.png");
     private static final Identifier ACCESSIBILITY = new ModIdentifier("textures/gui/sprites/hud/accessibility/accessibility.png");
+    private static final Identifier WALLPAPER = new ModIdentifier("textures/gui/sprites/hud/accessibility/wallpaper.png");
     Identifier identifier;
 
 
@@ -53,6 +54,7 @@ public abstract class AccessibilityPressableWidget extends ClickableWidget {
         {
             case "language" -> identifier = LANGUAGE;
             case "accessibility" -> identifier = ACCESSIBILITY;
+            case "wallpaper" -> identifier = WALLPAPER;
         }
 
         if(hovered)

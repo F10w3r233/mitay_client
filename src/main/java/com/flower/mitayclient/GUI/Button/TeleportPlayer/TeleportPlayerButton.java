@@ -1,10 +1,8 @@
 package com.flower.mitayclient.GUI.Button.TeleportPlayer;
 
 
-import com.flower.mitayclient.GUI.Button.MyPressableWidget;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
+import static net.minecraft.client.gui.screen.Screen.OPTIONS_BACKGROUND_TEXTURE;
+
 @Mixin(Screen.class)
 public abstract class MyScreenMixin
 {
@@ -28,14 +30,29 @@ public abstract class MyScreenMixin
 
     @Shadow public abstract Text getTitle();
 
-    @Inject(at = @At("HEAD"), method = "renderInGameBackground",cancellable = true)
+    @Shadow public int width;
 
+    @Shadow public int height;
+
+    @Inject(at = @At("HEAD"), method = "renderInGameBackground",cancellable = true)
     public void noBackground(DrawContext context, CallbackInfo ci)
     {
         ci.cancel();
         if(!title.contains(Text.literal("place")) && !title.contains(Text.literal("Teleport_Player")))
         {
             context.fillGradient(0, 0, 10000, 10000, -1072689136, -804253680);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "renderBackgroundTexture",cancellable = true)
+    private void noDirt(DrawContext context, CallbackInfo ci)
+    {
+        ci.cancel();
+        if(!title.contains(Text.literal("wallpaper")))
+        {
+            context.setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
+            context.drawTexture(OPTIONS_BACKGROUND_TEXTURE, 0, 0, 0, 0.0F, 0.0F, width, height, 32, 32);
+            context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 

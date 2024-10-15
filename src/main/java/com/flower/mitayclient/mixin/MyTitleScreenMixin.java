@@ -3,8 +3,8 @@ package com.flower.mitayclient.mixin;
 //import com.flower.mitayclient.screen.CustomTitleScreen;
 import com.flower.mitayclient.GUI.Button.Accessibility.AccessibilityButton;
 import com.flower.mitayclient.GUI.Button.MenuButton.MenuButton;
+import com.flower.mitayclient.GUI.Screen.WallpaperScreen;
 import com.flower.mitayclient.util.ModIdentifier;
-import com.flower.mitayclient.GUI.Screen.PlaceListScreen;
 import com.mojang.authlib.minecraft.BanDetails;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.SharedConstants;
@@ -32,7 +32,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-        import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static com.flower.mitayclient.GUI.Screen.WallpaperScreen.*;
 
 @Mixin(TitleScreen.class)
 public abstract class MyTitleScreenMixin extends Screen
@@ -40,6 +42,9 @@ public abstract class MyTitleScreenMixin extends Screen
     private long backgroundFadeStart;
 
     @Shadow protected abstract void initWidgetsNormal(int y, int spacingY);
+
+    @Shadow protected abstract void switchToRealms();
+
     private static final Identifier BACKGROUND_TEXTURES = new ModIdentifier("textures/gui/background3.png");
     private static final Identifier MITAY_LOGO = new ModIdentifier("textures/gui/logo.png");
 
@@ -122,6 +127,13 @@ public abstract class MyTitleScreenMixin extends Screen
                         ).dimensions(client.getWindow().getScaledWidth()-41, client.getWindow().getScaledHeight()-18,15,15)
                         .type("accessibility")
                         .build());
+
+        this.addDrawableChild(                                                                                    //自定义按钮
+                AccessibilityButton.builder(Text.translatable(""), button ->
+                                client.setScreen(new WallpaperScreen())
+                        ).dimensions(client.getWindow().getScaledWidth()-62, client.getWindow().getScaledHeight()-18,15,15)
+                        .type("wallpaper")
+                        .build());
     }
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
@@ -150,7 +162,34 @@ public abstract class MyTitleScreenMixin extends Screen
             context.drawTextWithShadow(this.textRenderer, string, 2, this.height - 10, 16777215 | i);
 
             //绘制背景
-            context.drawTexture(BACKGROUND_TEXTURES, 0,0,0,0,this.width,this.height,this.width,this.height);
+            Identifier background = Background3;
+            if(bl1 && !bl2)
+            {
+                switch (wallpaperIndex)
+                {
+                    case 1 -> background = Background1;
+                    case 2 -> background = Background2;
+                    case 3 -> background = Background3;
+                    case 4 -> background = Background4;
+                    case 5 -> background = Background5;
+                    case 6 -> background = Background6;
+                    case 7 -> background = Background7;
+                    case 8 -> background = Background8;
+                }
+            }
+            if(bl2 && !bl1)
+            {
+                switch (wallpaperIndex)
+                {
+                    case 1 -> background = Ani1;
+                    case 2 -> background = Ani2;
+                    case 3 -> background = Ani3;
+                    case 4 -> background = Ani4;
+                    case 5 -> background = Ani5;
+                    case 6 -> background = Ani6;
+                }
+            }
+            context.drawTexture(background, 0,0,0,0,this.width,this.height,this.width,this.height);
             //绘制mitayLogo
             context.drawTexture(MITAY_LOGO, 10,-15,0,0,260,160,260,160);
 //            context.drawTextWithShadow(this.textRenderer, "单人游戏", 81,145, 16843008 | i);

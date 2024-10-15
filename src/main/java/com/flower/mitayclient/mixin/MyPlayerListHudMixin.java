@@ -49,7 +49,7 @@ public class MyPlayerListHudMixin
 
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
-    public void render(DrawContext context, int scaledWindowWidth, Scoreboard scoreboard, ScoreboardObjective objective, CallbackInfo ci)
+    private void render(DrawContext context, int scaledWindowWidth, Scoreboard scoreboard, ScoreboardObjective objective, CallbackInfo ci)
     {
         ci.cancel();
 
