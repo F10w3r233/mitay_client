@@ -7,19 +7,19 @@
     2.装备耐久显示
 
 2024.9.17
-    预计：实现 服务端检测是否为Mitay客户端
+    预计：实现 服务端检测是否为Mitay客户端 ✔
             显示玩家列表
             玩家列表传送
     1.完成了 检测主副手工具是否有经验修补
 
 2024.9.18 完成了 壁纸更换
                 工具是否正在经验修补中(onMending)
-            预计：壁纸切换screen   (wallpaperScreen) 要用到json储存用户数据
+            预计：壁纸切换screen   (wallpaperScreen) ✔ 要用到json储存用户数据
 
 2024.10.7 完成了 PlayerListHud 但没有动画
             尝试了TitleScreen的壁纸切换 背景会变成泥土
-          下一步 1.玩家列表 点击传送 快捷键b
-                2.用客户端的PlayerListEntry实现 Entitlement的检测 延迟检测 经验修补检测
+          下一步 1.玩家列表 点击传送 快捷键b ✔
+                2.用客户端的PlayerListEntry实现 Entitlement的检测 延迟检测 经验修补检测  ✔
 
 2024.10.8 写好了tp玩家screen的 按钮 和 screen
 
@@ -27,4 +27,8 @@
 
 2024.10.11 1.成功解决了玩家进出入服务器 tp screen的按钮增删问题 纵向排列问题
            2.写出了Wallpaper Screen
+           3.写出了Teleport Player Screen
 
+2024.10.16 1.完成了 用客户端的PlayerListEntry实现 Entitlement的检测 延迟检测 经验修补检测  ✔
+
+2024.10.18 尝试 FontDrawer 分辨率低

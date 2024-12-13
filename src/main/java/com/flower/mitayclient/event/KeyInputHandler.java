@@ -1,6 +1,7 @@
 package com.flower.mitayclient.event;
 
 import com.flower.mitayclient.GUI.Screen.PlaceListScreen;
+import com.flower.mitayclient.GUI.Screen.PlayerInfoScreen;
 import com.flower.mitayclient.GUI.Screen.TeleportPlayerScreen;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -14,9 +15,11 @@ public class KeyInputHandler
     public static final String KEY_CATEGORY = "key.category.mitayclient.mitay";
     public static final String KEY_OPEN_PLACES_LIST = "key.mitayclient.open_places_list";
     public static final String KEY_OPEN_TELEPORT_LIST = "key.mitayclient.open_teleport_screen";
+    public static final String KEY_OPEN_PLAYER_INFO = "key.mitayclient.open_playerInfo_screen";
 
     public static KeyBinding openPlacesListKey;
     public static KeyBinding openTeleportScreenKey;
+    public static KeyBinding openPlayerInfoScreenKey;
 
     public static void registerKetInputs()
     {
@@ -35,6 +38,12 @@ public class KeyInputHandler
                 MinecraftClient.getInstance().setScreen(new TeleportPlayerScreen());
             }
         });
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {   //tp玩家列表
+            if (openPlayerInfoScreenKey.wasPressed())
+            {
+                MinecraftClient.getInstance().setScreen(new PlayerInfoScreen());
+            }
+        });
     }
 
     public static void register()
@@ -50,6 +59,13 @@ public class KeyInputHandler
                 KEY_OPEN_TELEPORT_LIST,
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_B,
+                KEY_CATEGORY
+        ));
+
+        openPlayerInfoScreenKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                KEY_OPEN_PLAYER_INFO,
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_H,
                 KEY_CATEGORY
         ));
 

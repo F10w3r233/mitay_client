@@ -86,6 +86,7 @@ public class AccessibilityButton extends AccessibilityPressableWidget
                 case "language" -> this.type = "language";
                 case "accessibility" -> this.type = "accessibility";
                 case "wallpaper" -> this.type = "wallpaper";
+                case "about" -> this.type = "about";
             }
             return this;
         }

@@ -38,7 +38,7 @@ public abstract class MyScreenMixin
     public void noBackground(DrawContext context, CallbackInfo ci)
     {
         ci.cancel();
-        if(!title.contains(Text.literal("place")) && !title.contains(Text.literal("Teleport_Player")))
+        if(!title.contains(Text.literal("place")) && !title.contains(Text.literal("Teleport_Player")) && !title.contains(Text.literal("PlayerInfo")))
         {
             context.fillGradient(0, 0, 10000, 10000, -1072689136, -804253680);
         }
@@ -48,7 +48,7 @@ public abstract class MyScreenMixin
     private void noDirt(DrawContext context, CallbackInfo ci)
     {
         ci.cancel();
-        if(!title.contains(Text.literal("wallpaper")))
+        if(!title.contains(Text.literal("wallpaper")) && !title.contains(Text.literal("About")) && !title.contains(Text.literal("统计信息")))
         {
             context.setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
             context.drawTexture(OPTIONS_BACKGROUND_TEXTURE, 0, 0, 0, 0.0F, 0.0F, width, height, 32, 32);

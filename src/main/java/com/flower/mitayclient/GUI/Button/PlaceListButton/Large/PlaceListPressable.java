@@ -20,35 +20,31 @@ import net.minecraft.util.math.MathHelper;
  */
 @Environment(EnvType.CLIENT)
 public abstract class PlaceListPressable extends ClickableWidget {
-    private static final ButtonTextures TEXTURES = new ButtonTextures(
-            new ModIdentifier("textures/gui/sprites/screen/button_small.png"), new ModIdentifier("textures/gui/sprites/screen/button_large.png"), new ModIdentifier("textures/gui/sprites/screen/button_small_pressed.png")
-    );
-
 
 
         //end
-    private static final Identifier ENDER_MAN_FARM = new ModIdentifier("textures/gui/sprites/hud/ender_pearl.png");
+    private static final Identifier ENDER_MAN_FARM = new ModIdentifier("textures/gui/sprites/hud/places/ender_pearl.png");
 
 
         //overworld
-    private static final Identifier EXCHANGE = new ModIdentifier("textures/gui/sprites/hud/emerald.png");
-    private static final Identifier HOME = new ModIdentifier("textures/gui/sprites/hud/birch_planks.png");
+    private static final Identifier EXCHANGE = new ModIdentifier("textures/gui/sprites/hud/places/emerald.png");
+    private static final Identifier HOME = new ModIdentifier("textures/gui/sprites/hud/places/birch_planks.png");
 
 
-    private static final Identifier MOB_TOWER_MAIN = new ModIdentifier("textures/gui/sprites/hud/slime_ball.png");
-    private static final Identifier MOB_TOWER_RESOURCE = new ModIdentifier("textures/gui/sprites/hud/chest.png");
-    private static final Identifier MOB_TOWER_AFK = new ModIdentifier("textures/gui/sprites/hud/afk.png");
+    private static final Identifier MOB_TOWER_MAIN = new ModIdentifier("textures/gui/sprites/hud/places/slime_ball.png");
+    private static final Identifier MOB_TOWER_RESOURCE = new ModIdentifier("textures/gui/sprites/hud/places/chest.png");
+    private static final Identifier MOB_TOWER_AFK = new ModIdentifier("textures/gui/sprites/hud/places/afk.png");
 
-    private static final Identifier IRON_FARM = new ModIdentifier("textures/gui/sprites/hud/iron_ingot.png");
+    private static final Identifier IRON_FARM = new ModIdentifier("textures/gui/sprites/hud/places/iron_ingot.png");
 
 
 
-    private static final Identifier END_PORTAL = new ModIdentifier("textures/gui/sprites/hud/end_portal_frame.png");
-    private static final Identifier END_MAINLAND = new ModIdentifier("textures/gui/sprites/hud/end_stone.png");
+    private static final Identifier END_PORTAL = new ModIdentifier("textures/gui/sprites/hud/places/end_portal_frame.png");
+    private static final Identifier END_MAINLAND = new ModIdentifier("textures/gui/sprites/hud/places/end_stone.png");
 
 
         //creative world
-    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/redstone.png");
+    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/places/redstone.png");
 
 
 

@@ -84,7 +84,8 @@ public class TeleportPlayerScreen extends Screen
                     RenderSystem.enableBlend();
                     buttonList.add(new TeleportPlayerButton.Builder(Text.literal(""), button ->
                     {
-                        PlaceListScreen.sendChatCommand("tpplus overworld 13 94 8");
+                        PlaceListScreen.sendChatCommand("home");
+                        client.setScreen(null);
                     }).player(player)
                             .dimensions(initX, getCurrentY(oriY, gap, curIndex), 210, 30).build());
 
@@ -94,6 +95,7 @@ public class TeleportPlayerScreen extends Screen
                     buttonList.add(new TeleportPlayerButton.Builder(Text.literal(""), button ->
                     {
                         PlaceListScreen.sendChatCommand("tpw " + player.getProfile().getName());
+                        client.setScreen(null);
                     }).player(player)
                             .dimensions(initX, getCurrentY(oriY, gap, curIndex), 210, 30).build());
 

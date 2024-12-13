@@ -14,11 +14,15 @@
     "InGameHudMixin",
     "MainMixin",
     "MessageHandlerMixin",
+    "MixinSlot",
     "MyConnectScreenMixin",
     "MyDisconnectedScreenMixin",
+    "MyEntryListWidgetMixin",
     "MyGameMenuScreenMixin",
     "MyInventoryScreenMixin",
     "MyPlayerListHudMixin",
-    "MyScreenMixin"
+    "MyScreenMixin",
+    "MyStatsScreenMixin",
+    "MixinSlot"
   ]
 }

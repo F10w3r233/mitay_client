@@ -28,10 +28,17 @@ public abstract class SmallPressableWidget extends ClickableWidget
 
 
 
-    private static final Identifier END = new ModIdentifier("textures/gui/sprites/hud/ender_eye.png");
-    private static final Identifier NETHER = new ModIdentifier("textures/gui/sprites/hud/blaze_powder.png");
-    private static final Identifier OVERWORLD = new ModIdentifier("textures/gui/sprites/hud/grass.png");
-    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/redstone.png");
+    private static final Identifier END = new ModIdentifier("textures/gui/sprites/hud/places/ender_eye.png");
+    private static final Identifier NETHER = new ModIdentifier("textures/gui/sprites/hud/places/blaze_powder.png");
+    private static final Identifier OVERWORLD = new ModIdentifier("textures/gui/sprites/hud/places/grass.png");
+    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/places/redstone.png");
+
+
+    private static final Identifier ITEMS = new ModIdentifier("textures/gui/sprites/hud/places/items.png");
+    private static final Identifier MOBS = new ModIdentifier("textures/gui/sprites/hud/places/mobs.png");
+    private static final Identifier GENERAL = new ModIdentifier("textures/gui/sprites/hud/places/grass.png");
+
+
 
 
 
@@ -62,6 +69,9 @@ public abstract class SmallPressableWidget extends ClickableWidget
             case "overworld" -> OVERWORLD;
             case "nether" -> NETHER;
             case "creative" -> CREATIVE_WORLD;
+            case "mobs" -> MOBS;
+            case "items" -> ITEMS;
+            case "general" -> GENERAL;
             default -> null;
         };
     }

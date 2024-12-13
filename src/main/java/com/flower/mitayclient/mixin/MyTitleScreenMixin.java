@@ -3,16 +3,15 @@ package com.flower.mitayclient.mixin;
 //import com.flower.mitayclient.screen.CustomTitleScreen;
 import com.flower.mitayclient.GUI.Button.Accessibility.AccessibilityButton;
 import com.flower.mitayclient.GUI.Button.MenuButton.MenuButton;
+import com.flower.mitayclient.GUI.Screen.AboutScreen;
 import com.flower.mitayclient.GUI.Screen.WallpaperScreen;
 import com.flower.mitayclient.util.ModIdentifier;
+import com.flower.mitayclient.util.SnowAnimation;
 import com.mojang.authlib.minecraft.BanDetails;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.CubeMapRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.RotatingCubeMapRenderer;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.*;
@@ -34,6 +33,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Random;
+
 import static com.flower.mitayclient.GUI.Screen.WallpaperScreen.*;
 
 @Mixin(TitleScreen.class)
@@ -46,6 +47,13 @@ public abstract class MyTitleScreenMixin extends Screen
     @Shadow protected abstract void switchToRealms();
 
     private static final Identifier BACKGROUND_TEXTURES = new ModIdentifier("textures/gui/background3.png");
+    private static final Identifier[] SNOWS =
+            {
+                    new ModIdentifier("textures/gui/sprites/hud/snow/white_snow.png"),
+                    new ModIdentifier("textures/gui/sprites/hud/snow/red_snow.png"),
+                    new ModIdentifier("textures/gui/sprites/hud/snow/yellow_snow.png")
+            };
+
     private static final Identifier MITAY_LOGO = new ModIdentifier("textures/gui/logo.png");
 
     private static final CubeMapRenderer PANORAMA_CUBE_MAP = new CubeMapRenderer(new Identifier("textures/gui/title/background/panorama"));
@@ -131,9 +139,17 @@ public abstract class MyTitleScreenMixin extends Screen
         this.addDrawableChild(                                                                                    //自定义按钮
                 AccessibilityButton.builder(Text.translatable(""), button ->
                                 client.setScreen(new WallpaperScreen())
-                        ).dimensions(client.getWindow().getScaledWidth()-62, client.getWindow().getScaledHeight()-18,15,15)
+                        ).dimensions(client.getWindow().getScaledWidth()-62, client.getWindow().getScaledHeight()-19,15,15)
                         .type("wallpaper")
                         .build());
+
+        this.addDrawableChild(                                                                                    //自定义按钮
+                AccessibilityButton.builder(Text.translatable(""), button ->
+                                client.setScreen(new AboutScreen())
+                        ).dimensions(client.getWindow().getScaledWidth()-83, client.getWindow().getScaledHeight()-18,15,15)
+                        .type("about")
+                        .build());
+
     }
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
@@ -192,6 +208,8 @@ public abstract class MyTitleScreenMixin extends Screen
             context.drawTexture(background, 0,0,0,0,this.width,this.height,this.width,this.height);
             //绘制mitayLogo
             context.drawTexture(MITAY_LOGO, 10,-15,0,0,260,160,260,160);
+            MinecraftClient client1 = MinecraftClient.getInstance();
+//            PlayerSkinDrawer.draw(context,client1.player.networkHandler.getPlayerListEntry(client.player.getUuid()).getSkinTextures(), 1 , 1 , 16);
 //            context.drawTextWithShadow(this.textRenderer, "单人游戏", 81,145, 16843008 | i);
 //            context.drawTextWithShadow(this.textRenderer, "直连到：MitayMinecraft", 40,186, 16843008 | i);
 
@@ -206,6 +224,8 @@ public abstract class MyTitleScreenMixin extends Screen
             }
             super.render(context, mouseX, mouseY, delta);
         }
+        SnowAnimation.INSTANCE = new SnowAnimation(new Random());
+        SnowAnimation.INSTANCE.tick(this.width, this.height, SNOWS);
     }
 
 

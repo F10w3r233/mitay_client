@@ -1,0 +1,21 @@
+{
+	"providers": [
+		{
+			"type": "ttf",
+			"file": "mitayclient:font/raleway.ttf",
+			"size": 10,
+			"oversample": 10,
+			"skip": "《【「『（"
+		},
+		{
+			"type": "ttf",
+			"file": "mitayclient:font/raleway.ttf",
+			"size": 10,
+			"oversample": 10,
+			"shift": [
+				-3.0,
+				0
+			]
+		}
+	]
+}

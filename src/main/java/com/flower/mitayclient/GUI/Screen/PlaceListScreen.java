@@ -29,6 +29,9 @@ public class PlaceListScreen extends Screen implements ParentElement {
     private static final Identifier SELECTED = new ModIdentifier("textures/gui/sprites/screen/selected.png");
 
 
+    private static final Identifier PLACES = new ModIdentifier("textures/gui/sprites/hud/places/places.png");
+
+
 
 
     double initX = 0;
@@ -180,12 +183,14 @@ public class PlaceListScreen extends Screen implements ParentElement {
     {
         RenderSystem.enableBlend();
         context2.drawTexture(MATRIX_LARGE, (this.client.getWindow().getScaledWidth()-382)/2-14,(this.client.getWindow().getScaledHeight()-292)/2-14,0,0,382,292,382,292);
-        context2.drawTexture(MATRIX_SIDE, (this.client.getWindow().getScaledWidth()-382)/2,(this.client.getWindow().getScaledHeight()-292)/2,0,0,115,263,115,263);//        if(canInit)
+        context2.drawTexture(MATRIX_SIDE, (this.client.getWindow().getScaledWidth()-382)/2,(this.client.getWindow().getScaledHeight()-292)/2,0,0,115,263,115,263);
 //        {
 //            init();
 //            canInit = false;
 //            System.out.println(canInit);
 //        }
+
+        context.drawTexture(PLACES, (this.client.getWindow().getScaledWidth()-382)/2+40, (this.client.getWindow().getScaledHeight()-292)/2+8, 0,0,26,13,26,13);
         if(canInit)
         {
             init();

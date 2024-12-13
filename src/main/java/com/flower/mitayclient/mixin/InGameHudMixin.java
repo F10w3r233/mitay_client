@@ -3,11 +3,13 @@ package com.flower.mitayclient.mixin;
 import com.flower.mitayclient.util.ModIdentifier;
 import com.flower.mitayclient.util.Locations;
 import com.flower.mitayclient.util.PlayerDataHandler;
+import com.flower.mitayclient.util.SnowAnimation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.PlayerSkinDrawer;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
@@ -16,12 +18,20 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.sound.MusicSound;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
+import net.minecraft.text.TextContent;
 import net.minecraft.util.Arm;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +46,8 @@ import java.util.*;
 
 
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudMixin
+{
 
 
     @Shadow public abstract TextRenderer getTextRenderer();
@@ -44,6 +55,9 @@ public abstract class InGameHudMixin {
     @Shadow public abstract PlayerListHud getPlayerListHud();
 
     @Shadow @Final private PlayerListHud playerListHud;
+
+    @Shadow public abstract ChatHud getChatHud();
+
     MinecraftClient client = MinecraftClient.getInstance();
 
 
@@ -69,6 +83,7 @@ public abstract class InGameHudMixin {
     //药水效果
     private static final Identifier EFFECT_BAR = new ModIdentifier("textures/gui/sprites/hud/effect_bar_2x.png");
     private static final Identifier EFFECT_BAR_BENEFIT = new ModIdentifier("textures/gui/sprites/hud/effect_bar_benefit_2x.png");
+    private static final Identifier EFFECT_BAR_AMBIENT = new ModIdentifier("textures/gui/sprites/hud/effect_bar_ambient.png");
     private static final Identifier EFFECT_BAR_BAD = new ModIdentifier("textures/gui/sprites/hud/effect_bar_bad_2x.png");
 
 
@@ -77,10 +92,10 @@ public abstract class InGameHudMixin {
 
     //状态栏
     private static final Identifier INFO_BAR = new ModIdentifier("textures/gui/sprites/hud/info_bar_2x.png");
-    private static final Identifier END = new ModIdentifier("textures/gui/sprites/hud/ender_eye.png");
-    private static final Identifier NETHER = new ModIdentifier("textures/gui/sprites/hud/blaze_powder.png");
-    private static final Identifier OVERWORLD = new ModIdentifier("textures/gui/sprites/hud/grass.png");
-    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/redstone.png");
+    private static final Identifier END = new ModIdentifier("textures/gui/sprites/hud/places/ender_eye.png");
+    private static final Identifier NETHER = new ModIdentifier("textures/gui/sprites/hud/places/blaze_powder.png");
+    private static final Identifier OVERWORLD = new ModIdentifier("textures/gui/sprites/hud/places/grass.png");
+    private static final Identifier CREATIVE_WORLD = new ModIdentifier("textures/gui/sprites/hud/places/redstone.png");
 
 
 
@@ -119,7 +134,7 @@ public abstract class InGameHudMixin {
         RenderSystem.enableBlend();
         int fps = MinecraftClient.getInstance().getCurrentFps();
         context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Mitay Minecraft Survival Server Client Dev1.0", 2, 2, 111111);
-        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "FPS : " + fps, 2, 10, 1111111);
+        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "FPS : " + fps, 2, this.client.getWindow().getScaledHeight()/2-220, 1111111);
         context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Player : " + MinecraftClient.getInstance().getCameraEntity().getNameForScoreboard(), 2, 18, 1111111);
 
 
@@ -182,14 +197,17 @@ public abstract class InGameHudMixin {
                 //绘制效果sprite
                 i++;
                 int n = gap*i;
-                context2.drawTexture(EFFECT_BAR, x1 , n-8, 0, 0, 90, 34, 90, 34);
+                if (statusEffectInstance.isAmbient())
+                {
+                    context2.drawTexture(EFFECT_BAR_AMBIENT, x1, n-8, 0,0,90,34,90,34);
+                }else context2.drawTexture(EFFECT_BAR, x1 , n-8, 0, 0, 90, 34, 90, 34);
+
                 if(!statusEffect.isBeneficial())
                 {
-                    context2.drawTexture(EFFECT_BAR_BAD, x2, n-3, 0,0,24,24,24,24);
-                }else if (statusEffectInstance.isAmbient())
-                {
-                    context2.drawTexture(EFFECT_BAR_BENEFIT, x2, n-3, 0,0,24,24,24,24);
+                    context2.drawTexture(EFFECT_BAR_BAD, x2, n - 3, 0, 0, 24, 24, 24, 24);
                 }
+
+
                 float f = 1.0F;
 //                if (statusEffectInstance.isDurationBelow(200))
 //                {
@@ -309,6 +327,7 @@ public abstract class InGameHudMixin {
 
     int originalPlayerNumber;
     int playerNumber;
+    Text playerName;
 
         @Inject(method = "renderHotbar", at = @At("HEAD"), cancellable = true)
     public void overwriteHotbarRender(float tickDelta, DrawContext context, CallbackInfo ci)
@@ -438,24 +457,46 @@ public abstract class InGameHudMixin {
 
 
         //获取玩家名颜色
-        if(PlayerDataHandler.entitlement != null)
+//        if(PlayerDataHandler.entitlement != null)
+//        {
+//            switch (PlayerDataHandler.entitlement)
+//            {
+////                case "vip" -> playerNameColor = 5569364;
+////                case "mvp" -> playerNameColor = 5569531;
+////                case "mvppp" -> playerNameColor = 16492544;
+////                case "owner" -> playerNameColor = 12400439;
+////                case "hentai" -> playerNameColor = 16777045;
+////                case "none" -> playerNameColor = 14474460;
+//            }
+//        }
+
+        if(this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard()) != null)
         {
-            switch (PlayerDataHandler.entitlement)
+            String displayName;
+            PlayerListEntry player = this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard());
+            if(player.getDisplayName() != null)
             {
-                case "vip" -> playerNameColor = 5569364;
-                case "mvp" -> playerNameColor = 5569531;
-                case "mvppp" -> playerNameColor = 16492544;
-                case "owner" -> playerNameColor = 12400439;
-                case "hentai" -> playerNameColor = 16777045;
-                case "none" -> playerNameColor = 14474460;
-            }
+                displayName = player.getDisplayName().getString();
+                String[] split = displayName.split("]");
+                String entitlment = split[0];
+                switch (entitlment)
+                {
+                    case "[VIP" -> playerNameColor = 5569364;
+                    case "[MVP+" -> playerNameColor = 5569531;
+                    case "[MVP++" -> playerNameColor = 16492544;
+                    case "[OWNER" -> playerNameColor = 12400439;
+                    case "[HENTAI" -> playerNameColor = 16777045;
+                    default -> playerNameColor = 14474460;
+                }
+            }else playerNameColor = 14474460;
         }
 
 
         //获取玩家延迟颜色
-        if(PlayerDataHandler.entitlement != null)
+        if(this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard()) != null)
         {
-            int ping = PlayerDataHandler.ping;
+
+            int ping = this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard()).getLatency();
             if(ping <= 150)
             {
                 playerPingColor = 111111;
@@ -587,20 +628,19 @@ public abstract class InGameHudMixin {
             context.drawText(client.textRenderer, playerName, x+8+9+8+8+4+4+4+4+4+2, o2, playerNameColor, true);
 
             //延迟图标渲染
-            if(pingIcon != null)
+            if(pingIcon != null && this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard()).getLatency() != 0)
             {
                 context.drawTexture(pingIcon, x+8+9+8+8+4+4+4+4+4+2+nameLength, o2, 0,0,10,8,10,8);
 
                 //延迟渲染
                 try
                 {
-                    context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, String.valueOf(PlayerDataHandler.ping), x+8+9+8+8+4+4+4+4+4+2+pingLength, o2, playerPingColor  );
+                    context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, String.valueOf(this.client.getNetworkHandler().getPlayerListEntry(getCameraPlayer().getNameForScoreboard()).getLatency()), x+8+9+8+8+4+4+4+4+4+2+pingLength, o2, playerPingColor  );
                 }catch (NullPointerException e)
                 {
                     e.printStackTrace();
                 }
             }
-
 
 
             //世界图标渲染
@@ -668,6 +708,7 @@ public abstract class InGameHudMixin {
         ItemStack leftHandItem = itemStacks.get(1);
         ItemStack rightHandItem = itemStacks.get(0);
 
+
         //主副手物品颜色处理
         if (leftHandItem.hasEnchantments())
         {
@@ -683,17 +724,21 @@ public abstract class InGameHudMixin {
 
 
         //耐久颜色 （是否有经验修补）
-        if(leftHandItem.getEnchantments().contains(Enchantments.MENDING))
+        for(NbtElement enchantment : leftHandItem.getEnchantments())
         {
-            playerLeftToolDamageColor = 1111111;
-        }else playerLeftToolDamageColor = 14474460;
+            if(enchantment.asString().contains("mending"))
+            {
+                playerLeftToolDamageColor = 1111111;
+            }else playerLeftToolDamageColor = 14474460;
+        }
 
-        if(rightHandItem.getEnchantments().contains(Enchantments.MENDING))
+        for(NbtElement enchantment : rightHandItem.getEnchantments())
         {
-            playerRightToolDamageColor = 1111111;
-
-        }else playerRightToolDamageColor = 14474460;
-
+            if(enchantment.asString().contains("mending"))
+            {
+                playerRightToolDamageColor = 1111111;
+            }else playerRightToolDamageColor = 14474460;
+        }
 
 
 

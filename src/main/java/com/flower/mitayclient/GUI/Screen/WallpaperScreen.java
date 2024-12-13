@@ -18,7 +18,7 @@ public class WallpaperScreen extends Screen implements ParentElement
     public static final Text title = Text.literal("wallpaper");
     public WallpaperScreen()
     {
-        super(title);
+        super(Text.literal("wallpaper"));
     }
     public static final Identifier Side = new ModIdentifier("textures/gui/sprites/screen/wallpaper_side.png");
     public static final Identifier Background = new ModIdentifier("textures/gui/white_background.png");
@@ -113,14 +113,14 @@ public class WallpaperScreen extends Screen implements ParentElement
     {
         wallpaperIndex = 4;
     }).wallpaper(Ani4).dimensions(650,50,100,50).build();
-    WallpaperButton anime5 = WallpaperButton.builder(Text.literal(""), button ->
-    {
-        wallpaperIndex = 5;
-    }).wallpaper(Ani5).dimensions(800,50,100,50).build();
-    WallpaperButton anime6 = WallpaperButton.builder(Text.literal(""), button ->
-    {
-        wallpaperIndex = 6;
-    }).wallpaper(Ani6).dimensions(200,140,100,50).build();
+//    WallpaperButton anime5 = WallpaperButton.builder(Text.literal(""), button ->
+//    {
+//        wallpaperIndex = 5;
+//    }).wallpaper(Ani5).dimensions(800,50,100,50).build();
+//    WallpaperButton anime6 = WallpaperButton.builder(Text.literal(""), button ->
+//    {
+//        wallpaperIndex = 6;
+//    }).wallpaper(Ani6).dimensions(200,140,100,50).build();
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
@@ -143,8 +143,8 @@ public class WallpaperScreen extends Screen implements ParentElement
             remove(anime2);
             remove(anime3);
             remove(anime4);
-            remove(anime5);
-            remove(anime6);
+//            remove(anime5);
+//            remove(anime6);
 
             addDrawableChild(mc1);
             addDrawableChild(mc2);
@@ -171,8 +171,8 @@ public class WallpaperScreen extends Screen implements ParentElement
             addDrawableChild(anime2);
             addDrawableChild(anime3);
             addDrawableChild(anime4);
-            addDrawableChild(anime5);
-            addDrawableChild(anime6);
+//            addDrawableChild(anime5);
+//            addDrawableChild(anime6);
         }
         super.init();
     }

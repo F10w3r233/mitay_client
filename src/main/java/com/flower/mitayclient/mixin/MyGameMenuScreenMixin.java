@@ -2,6 +2,7 @@ package com.flower.mitayclient.mixin;
 
 
 import com.flower.mitayclient.GUI.Button.MenuButton.MenuButton;
+import com.flower.mitayclient.GUI.Screen.MyStatScreen;
 import com.flower.mitayclient.util.ModIdentifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -67,7 +68,8 @@ public class MyGameMenuScreenMixin extends Screen
         );
 
         this.addDrawableChild(
-                MenuButton.builder(Text.literal("统计信息"),button -> new StatsScreen(this, this.client.player.getStatHandler()))
+                MenuButton.builder(Text.literal("统计信息"),button ->
+                        this.client.setScreen(new MyStatScreen(this, this.client.player.getStatHandler())))
                         .dimensions(80, this.client.getWindow().getScaledHeight()/2-160,150,20)
                         .build()
         );
