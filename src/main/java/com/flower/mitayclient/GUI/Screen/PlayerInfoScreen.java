@@ -1,6 +1,7 @@
 package com.flower.mitayclient.GUI.Screen;
 
 import com.flower.mitayclient.util.ModIdentifier;
+import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -48,17 +49,29 @@ public class PlayerInfoScreen extends Screen implements ParentElement
         context.drawTexture(MATRIX_LARGE, (this.client.getWindow().getScaledWidth()-1264/2)/2-14,(this.client.getWindow().getScaledHeight()-292)/2-14,0,0,1264/2,292,1264/2,292);
         PlayerEntity player = getCameraPlayer();
         int index = 0;
-        Iterator listIterator = player.getArmorItems().iterator();
-        List<ItemStack> list = null;
+
+
+        Iterator<ItemStack> listIterator = player.getArmorItems().iterator();
+//        List<String> IDs = new ArrayList<>();
+        List<ItemStack> list2 = new ArrayList<>();
         while(listIterator.hasNext())
         {
-            Collection c = new ArrayList();
-
+            list2.add(listIterator.next());
         }
-        for(ItemStack armor : list)
+
+//        for(ItemStack itemStack : list2)
+//        {
+//            for (Map.Entry<Enchantment, Integer> enchantment : EnchantmentHelper.get(itemStack).entrySet())
+//            {
+//                Text enchantmentID = enchantment.getKey().getName(enchantment.getValue());
+//                IDs.add(enchantmentID.getString());
+//            }
+//        }
+        Collections.reverse(list2);
+        for(ItemStack armor : list2)
         {
-            index += 75;
-            context.drawItem(armor, 100 + index,140);
+            index += 80;
+            context.drawItem(armor, 110 + index,140);
 
             if(armor.hasEnchantments())
             {
@@ -67,7 +80,7 @@ public class PlayerInfoScreen extends Screen implements ParentElement
                 for (Map.Entry<Enchantment, Integer> enchantment : EnchantmentHelper.get(armor).entrySet())
                 {
                     Text enchantmentID = enchantment.getKey().getName(enchantment.getValue());
-                    context.drawText(textRenderer, enchantmentID, 90 + index - enchantmentID.getString().length()/10 ,y,111111, true);
+                    context.drawText(textRenderer, enchantmentID, 100 + index - enchantmentID.getString().length()/10 ,y,111111, true);
                     y += 18;
                 }
 //                drawItemEnchantments(armor, context, 100 + index, 160);
